@@ -45,15 +45,6 @@ class DCCGARCHSimulator:
         pred = (self.omega + self.alpha_garch) / (
             1 - self.beta_garch - self.alpha_garch * self.gamma**2
         )
-
-
-        print("predicted h_unconditional")
-        for x in pred:
-            print(f"{x.item():.10f}")
-
-        print("true h_unconditional")
-        for x in self.h_unconditional:
-            print(f"{x.item():.10f}")
     def _sample_t_copula_gaussian_margins(self, B, n, L_chol, device, generator=None):
         L_chol = L_chol.to(device)
         nu = float(self.nu_Q.item())
