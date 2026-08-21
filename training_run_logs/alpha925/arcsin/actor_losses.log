@@ -1,0 +1,205 @@
+=== Outer Iteration 0 ===
+iter, loss
+0, 315.343020
+1, 251.623752
+2, 235.445826
+=== Outer Iteration 10 ===
+iter, loss
+0, 52.349086
+1, 51.476002
+2, 55.289017
+=== Outer Iteration 20 ===
+iter, loss
+0, 42.581989
+1, 42.987450
+2, 41.813388
+=== Outer Iteration 30 ===
+iter, loss
+0, 35.718830
+1, 35.922229
+2, 35.939930
+=== Outer Iteration 40 ===
+iter, loss
+0, 27.649752
+1, 27.538624
+2, 27.607088
+=== Outer Iteration 50 ===
+iter, loss
+0, 20.979619
+1, 20.738949
+2, 20.931072
+=== Outer Iteration 60 ===
+iter, loss
+0, 13.692777
+1, 14.196124
+2, 13.281794
+=== Outer Iteration 70 ===
+iter, loss
+0, 8.104438
+1, 8.074943
+2, 8.071294
+=== Outer Iteration 80 ===
+iter, loss
+0, 5.982917
+1, 5.945147
+2, 5.939171
+=== Outer Iteration 90 ===
+iter, loss
+0, 4.836507
+1, 4.832582
+2, 5.001608
+=== Outer Iteration 100 ===
+iter, loss
+0, 4.672810
+1, 4.691070
+2, 4.655361
+=== Outer Iteration 110 ===
+iter, loss
+0, 4.309933
+1, 4.364060
+2, 4.254211
+=== Outer Iteration 120 ===
+iter, loss
+0, 4.258420
+1, 4.087535
+2, 4.147521
+=== Outer Iteration 130 ===
+iter, loss
+0, 4.013651
+1, 3.948578
+2, 3.976339
+=== Outer Iteration 140 ===
+iter, loss
+0, 3.924321
+1, 3.840188
+2, 3.917823
+=== Outer Iteration 150 ===
+iter, loss
+0, 3.922867
+1, 3.858878
+2, 3.918037
+=== Outer Iteration 160 ===
+iter, loss
+0, 3.844408
+1, 3.839450
+2, 3.795514
+=== Outer Iteration 170 ===
+iter, loss
+0, 3.747953
+1, 3.770792
+2, 3.791293
+=== Outer Iteration 180 ===
+iter, loss
+0, 3.657058
+1, 3.670234
+2, 3.666128
+=== Outer Iteration 190 ===
+iter, loss
+0, 3.755527
+1, 3.776262
+2, 3.762011
+=== Outer Iteration 200 ===
+iter, loss
+0, 3.615632
+1, 3.593376
+2, 3.604979
+=== Outer Iteration 210 ===
+iter, loss
+0, 3.644941
+1, 3.645325
+2, 3.655887
+=== Outer Iteration 220 ===
+iter, loss
+0, 3.624420
+1, 3.667117
+2, 3.624929
+=== Outer Iteration 230 ===
+iter, loss
+0, 3.581007
+1, 3.594291
+2, 3.583756
+=== Outer Iteration 240 ===
+iter, loss
+0, 3.567128
+1, 3.598525
+2, 3.569656
+=== Outer Iteration 250 ===
+iter, loss
+0, 3.497369
+1, 3.490738
+2, 3.495638
+=== Outer Iteration 260 ===
+iter, loss
+0, 3.612216
+1, 3.611820
+2, 3.641205
+=== Outer Iteration 270 ===
+iter, loss
+0, 3.495254
+1, 3.505351
+2, 3.508538
+=== Outer Iteration 280 ===
+iter, loss
+0, 3.591038
+1, 3.604800
+2, 3.605793
+=== Outer Iteration 290 ===
+iter, loss
+0, 3.508220
+1, 3.492081
+2, 3.485598
+=== Outer Iteration 300 ===
+iter, loss
+0, 3.460860
+1, 3.427159
+2, 3.438482
+=== Outer Iteration 310 ===
+iter, loss
+0, 3.430311
+1, 3.421885
+2, 3.418599
+=== Outer Iteration 320 ===
+iter, loss
+0, 3.522804
+1, 3.526293
+2, 3.523641
+=== Outer Iteration 330 ===
+iter, loss
+0, 3.500809
+1, 3.490294
+2, 3.499936
+=== Outer Iteration 340 ===
+iter, loss
+0, 3.408730
+1, 3.412554
+2, 3.416576
+=== Outer Iteration 350 ===
+iter, loss
+0, 3.468913
+1, 3.467332
+2, 3.445875
+=== Outer Iteration 360 ===
+iter, loss
+0, 3.496815
+1, 3.481889
+2, 3.482948
+=== Outer Iteration 370 ===
+iter, loss
+0, 3.437502
+1, 3.415099
+2, 3.411762
+=== Outer Iteration 380 ===
+iter, loss
+0, 3.480665
+1, 3.485149
+2, 3.478230
+=== Outer Iteration 390 ===
+iter, loss
+0, 3.428099
+1, 3.427672
+2, 3.411077
+=== Outer Iteration 399 ===
+iter, loss
+0, 3.353499
+1, 3.374297
+2, 3.383383

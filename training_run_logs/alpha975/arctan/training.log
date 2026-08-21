@@ -1,0 +1,83 @@
+Training started at 20260818_011009
+================================================================================
+Iter 0: critic_loss=0.025454, actor_loss=805.283213, V_early=-145.13, mean_cost=-0.013326, mean_terminal_hedging_error=3.358027, std_terminal_hedging_error=7.385648, mean_action=0.306327
+  CVaR: CVaR_91%=13.1714, CVaR_92%=13.9542, CVaR_93%=14.8078, CVaR_94%=15.8304, CVaR_95%=16.9951, CVaR_96%=18.3924, CVaR_97%=20.0201, CVaR_98%=22.1568, CVaR_99%=25.4271
+Iter 10: critic_loss=0.003829, actor_loss=194.661893, V_early=-0.09, mean_cost=0.002708, mean_terminal_hedging_error=-0.682454, std_terminal_hedging_error=3.848114, mean_action=0.147120
+  CVaR: CVaR_91%=6.2541, CVaR_92%=6.4044, CVaR_93%=6.5591, CVaR_94%=6.7531, CVaR_95%=6.9699, CVaR_96%=7.2561, CVaR_97%=7.6134, CVaR_98%=8.1053, CVaR_99%=8.8011
+Iter 20: critic_loss=0.000859, actor_loss=36.535727, V_early=91.90, mean_cost=0.003707, mean_terminal_hedging_error=-0.934159, std_terminal_hedging_error=2.954134, mean_action=0.151319
+  CVaR: CVaR_91%=6.0210, CVaR_92%=6.1965, CVaR_93%=6.3769, CVaR_94%=6.5933, CVaR_95%=6.8428, CVaR_96%=7.1550, CVaR_97%=7.5176, CVaR_98%=8.0401, CVaR_99%=8.7896
+Iter 30: critic_loss=0.000480, actor_loss=15.457396, V_early=114.61, mean_cost=0.005395, mean_terminal_hedging_error=-1.359480, std_terminal_hedging_error=2.855973, mean_action=0.142739
+  CVaR: CVaR_91%=6.5228, CVaR_92%=6.6952, CVaR_93%=6.8795, CVaR_94%=7.0889, CVaR_95%=7.3195, CVaR_96%=7.5971, CVaR_97%=7.9261, CVaR_98%=8.3789, CVaR_99%=9.1265
+Iter 40: critic_loss=0.000413, actor_loss=11.484783, V_early=125.05, mean_cost=0.004719, mean_terminal_hedging_error=-1.189307, std_terminal_hedging_error=2.403891, mean_action=0.146188
+  CVaR: CVaR_91%=5.5167, CVaR_92%=5.6557, CVaR_93%=5.8002, CVaR_94%=5.9739, CVaR_95%=6.1615, CVaR_96%=6.3885, CVaR_97%=6.6697, CVaR_98%=7.0740, CVaR_99%=7.7166
+Iter 50: critic_loss=0.000402, actor_loss=10.875097, V_early=129.20, mean_cost=0.004084, mean_terminal_hedging_error=-1.029184, std_terminal_hedging_error=2.356921, mean_action=0.147131
+  CVaR: CVaR_91%=5.2168, CVaR_92%=5.3651, CVaR_93%=5.5216, CVaR_94%=5.7099, CVaR_95%=5.9153, CVaR_96%=6.1880, CVaR_97%=6.5219, CVaR_98%=7.0381, CVaR_99%=7.9003
+Iter 60: critic_loss=0.000400, actor_loss=10.498869, V_early=132.69, mean_cost=0.005346, mean_terminal_hedging_error=-1.347311, std_terminal_hedging_error=2.651834, mean_action=0.143421
+  CVaR: CVaR_91%=6.0271, CVaR_92%=6.1793, CVaR_93%=6.3454, CVaR_94%=6.5431, CVaR_95%=6.7660, CVaR_96%=7.0551, CVaR_97%=7.4138, CVaR_98%=7.9489, CVaR_99%=8.7526
+Iter 70: critic_loss=0.000392, actor_loss=9.994181, V_early=136.49, mean_cost=0.004807, mean_terminal_hedging_error=-1.211366, std_terminal_hedging_error=2.399835, mean_action=0.145964
+  CVaR: CVaR_91%=5.5362, CVaR_92%=5.6775, CVaR_93%=5.8305, CVaR_94%=6.0152, CVaR_95%=6.2192, CVaR_96%=6.4833, CVaR_97%=6.8273, CVaR_98%=7.3242, CVaR_99%=8.1174
+Iter 80: critic_loss=0.000378, actor_loss=8.882840, V_early=142.69, mean_cost=0.004663, mean_terminal_hedging_error=-1.175034, std_terminal_hedging_error=2.323100, mean_action=0.142942
+  CVaR: CVaR_91%=5.3433, CVaR_92%=5.4808, CVaR_93%=5.6279, CVaR_94%=5.8088, CVaR_95%=6.0149, CVaR_96%=6.2810, CVaR_97%=6.5843, CVaR_98%=6.9692, CVaR_99%=7.5835
+Iter 90: critic_loss=0.000376, actor_loss=8.432974, V_early=146.73, mean_cost=0.004702, mean_terminal_hedging_error=-1.184873, std_terminal_hedging_error=2.309216, mean_action=0.142748
+  CVaR: CVaR_91%=5.4139, CVaR_92%=5.5561, CVaR_93%=5.7071, CVaR_94%=5.8850, CVaR_95%=6.0786, CVaR_96%=6.3264, CVaR_97%=6.6140, CVaR_98%=7.0931, CVaR_99%=7.9354
+Iter 100: critic_loss=0.000382, actor_loss=8.644398, V_early=146.31, mean_cost=0.005000, mean_terminal_hedging_error=-1.259996, std_terminal_hedging_error=2.217980, mean_action=0.145812
+  CVaR: CVaR_91%=5.2986, CVaR_92%=5.4436, CVaR_93%=5.6008, CVaR_94%=5.7845, CVaR_95%=5.9752, CVaR_96%=6.2222, CVaR_97%=6.5203, CVaR_98%=6.9746, CVaR_99%=7.7785
+Iter 110: critic_loss=0.000369, actor_loss=8.115305, V_early=150.00, mean_cost=0.004953, mean_terminal_hedging_error=-1.248118, std_terminal_hedging_error=2.265614, mean_action=0.142024
+  CVaR: CVaR_91%=5.2487, CVaR_92%=5.3758, CVaR_93%=5.5098, CVaR_94%=5.6629, CVaR_95%=5.8290, CVaR_96%=6.0259, CVaR_97%=6.2308, CVaR_98%=6.5197, CVaR_99%=6.9903
+Iter 120: critic_loss=0.000371, actor_loss=8.054433, V_early=150.77, mean_cost=0.004538, mean_terminal_hedging_error=-1.143576, std_terminal_hedging_error=2.347737, mean_action=0.145631
+  CVaR: CVaR_91%=5.3999, CVaR_92%=5.5335, CVaR_93%=5.6795, CVaR_94%=5.8539, CVaR_95%=6.0496, CVaR_96%=6.2894, CVaR_97%=6.5869, CVaR_98%=7.0285, CVaR_99%=7.5286
+Iter 130: critic_loss=0.000380, actor_loss=8.123056, V_early=153.36, mean_cost=0.005542, mean_terminal_hedging_error=-1.396676, std_terminal_hedging_error=2.288594, mean_action=0.147747
+  CVaR: CVaR_91%=5.6516, CVaR_92%=5.8040, CVaR_93%=5.9680, CVaR_94%=6.1656, CVaR_95%=6.3817, CVaR_96%=6.6586, CVaR_97%=6.9894, CVaR_98%=7.4216, CVaR_99%=8.0583
+Iter 140: critic_loss=0.000368, actor_loss=7.541349, V_early=155.97, mean_cost=0.005672, mean_terminal_hedging_error=-1.429377, std_terminal_hedging_error=2.507749, mean_action=0.143788
+  CVaR: CVaR_91%=5.9590, CVaR_92%=6.1182, CVaR_93%=6.2913, CVaR_94%=6.5020, CVaR_95%=6.7391, CVaR_96%=7.0555, CVaR_97%=7.4562, CVaR_98%=8.0664, CVaR_99%=9.1827
+Iter 150: critic_loss=0.000370, actor_loss=7.977713, V_early=153.08, mean_cost=0.006025, mean_terminal_hedging_error=-1.518335, std_terminal_hedging_error=2.759717, mean_action=0.143561
+  CVaR: CVaR_91%=6.3036, CVaR_92%=6.4450, CVaR_93%=6.5961, CVaR_94%=6.7727, CVaR_95%=6.9670, CVaR_96%=7.2204, CVaR_97%=7.5434, CVaR_98%=8.0265, CVaR_99%=8.7596
+Iter 160: critic_loss=0.000369, actor_loss=7.683680, V_early=155.27, mean_cost=0.005082, mean_terminal_hedging_error=-1.280664, std_terminal_hedging_error=2.409269, mean_action=0.143687
+  CVaR: CVaR_91%=5.5478, CVaR_92%=5.6795, CVaR_93%=5.8235, CVaR_94%=5.9984, CVaR_95%=6.1909, CVaR_96%=6.4531, CVaR_97%=6.7779, CVaR_98%=7.1799, CVaR_99%=7.7059
+Iter 170: critic_loss=0.000375, actor_loss=7.934098, V_early=156.82, mean_cost=0.006107, mean_terminal_hedging_error=-1.539069, std_terminal_hedging_error=2.608478, mean_action=0.141160
+  CVaR: CVaR_91%=6.0467, CVaR_92%=6.1786, CVaR_93%=6.3157, CVaR_94%=6.4846, CVaR_95%=6.6679, CVaR_96%=6.8947, CVaR_97%=7.1745, CVaR_98%=7.5954, CVaR_99%=8.2178
+Iter 180: critic_loss=0.000368, actor_loss=7.496941, V_early=158.19, mean_cost=0.005396, mean_terminal_hedging_error=-1.359853, std_terminal_hedging_error=2.406360, mean_action=0.147047
+  CVaR: CVaR_91%=5.6599, CVaR_92%=5.7916, CVaR_93%=5.9322, CVaR_94%=6.0972, CVaR_95%=6.2879, CVaR_96%=6.5119, CVaR_97%=6.7712, CVaR_98%=7.1867, CVaR_99%=7.7479
+Iter 190: critic_loss=0.000373, actor_loss=7.876735, V_early=156.98, mean_cost=0.005446, mean_terminal_hedging_error=-1.372298, std_terminal_hedging_error=2.379672, mean_action=0.144156
+  CVaR: CVaR_91%=5.6154, CVaR_92%=5.7438, CVaR_93%=5.8825, CVaR_94%=6.0490, CVaR_95%=6.2348, CVaR_96%=6.4633, CVaR_97%=6.7168, CVaR_98%=7.0842, CVaR_99%=7.7093
+Iter 200: critic_loss=0.000365, actor_loss=7.356117, V_early=158.91, mean_cost=0.006023, mean_terminal_hedging_error=-1.517782, std_terminal_hedging_error=2.703980, mean_action=0.141187
+  CVaR: CVaR_91%=6.1243, CVaR_92%=6.2701, CVaR_93%=6.4241, CVaR_94%=6.6118, CVaR_95%=6.8189, CVaR_96%=7.0774, CVaR_97%=7.3777, CVaR_98%=7.8315, CVaR_99%=8.4962
+Iter 210: critic_loss=0.000366, actor_loss=7.474576, V_early=158.67, mean_cost=0.005004, mean_terminal_hedging_error=-1.261026, std_terminal_hedging_error=2.466395, mean_action=0.142935
+  CVaR: CVaR_91%=5.5305, CVaR_92%=5.6699, CVaR_93%=5.8189, CVaR_94%=5.9922, CVaR_95%=6.1740, CVaR_96%=6.3869, CVaR_97%=6.6115, CVaR_98%=6.9486, CVaR_99%=7.4738
+Iter 220: critic_loss=0.000365, actor_loss=7.283611, V_early=159.67, mean_cost=0.005507, mean_terminal_hedging_error=-1.387759, std_terminal_hedging_error=2.530325, mean_action=0.143386
+  CVaR: CVaR_91%=5.9287, CVaR_92%=6.0799, CVaR_93%=6.2444, CVaR_94%=6.4459, CVaR_95%=6.6788, CVaR_96%=6.9858, CVaR_97%=7.3619, CVaR_98%=7.8634, CVaR_99%=8.5602
+Iter 230: critic_loss=0.000364, actor_loss=7.276660, V_early=159.63, mean_cost=0.005526, mean_terminal_hedging_error=-1.392671, std_terminal_hedging_error=2.476615, mean_action=0.143360
+  CVaR: CVaR_91%=5.7528, CVaR_92%=5.8950, CVaR_93%=6.0492, CVaR_94%=6.2359, CVaR_95%=6.4452, CVaR_96%=6.7141, CVaR_97%=7.0380, CVaR_98%=7.5219, CVaR_99%=8.2713
+Iter 240: critic_loss=0.000364, actor_loss=7.361341, V_early=159.15, mean_cost=0.005561, mean_terminal_hedging_error=-1.401356, std_terminal_hedging_error=2.507290, mean_action=0.142170
+  CVaR: CVaR_91%=5.6748, CVaR_92%=5.8019, CVaR_93%=5.9328, CVaR_94%=6.0861, CVaR_95%=6.2556, CVaR_96%=6.4780, CVaR_97%=6.7631, CVaR_98%=7.1922, CVaR_99%=7.8353
+Iter 250: critic_loss=0.000365, actor_loss=7.153805, V_early=161.47, mean_cost=0.005781, mean_terminal_hedging_error=-1.456793, std_terminal_hedging_error=2.556513, mean_action=0.142115
+  CVaR: CVaR_91%=5.9064, CVaR_92%=6.0387, CVaR_93%=6.1792, CVaR_94%=6.3426, CVaR_95%=6.5167, CVaR_96%=6.7076, CVaR_97%=6.9417, CVaR_98%=7.2741, CVaR_99%=7.7724
+Iter 260: critic_loss=0.000365, actor_loss=7.508227, V_early=158.80, mean_cost=0.005382, mean_terminal_hedging_error=-1.356290, std_terminal_hedging_error=2.428367, mean_action=0.143423
+  CVaR: CVaR_91%=5.6901, CVaR_92%=5.8275, CVaR_93%=5.9685, CVaR_94%=6.1335, CVaR_95%=6.3098, CVaR_96%=6.5274, CVaR_97%=6.7978, CVaR_98%=7.1905, CVaR_99%=7.8396
+Iter 270: critic_loss=0.000366, actor_loss=7.172211, V_early=161.90, mean_cost=0.004841, mean_terminal_hedging_error=-1.219971, std_terminal_hedging_error=2.214250, mean_action=0.145984
+  CVaR: CVaR_91%=5.0543, CVaR_92%=5.1669, CVaR_93%=5.2867, CVaR_94%=5.4326, CVaR_95%=5.5984, CVaR_96%=5.8148, CVaR_97%=6.0924, CVaR_98%=6.5025, CVaR_99%=7.1270
+Iter 280: critic_loss=0.000366, actor_loss=7.451755, V_early=159.57, mean_cost=0.005091, mean_terminal_hedging_error=-1.282911, std_terminal_hedging_error=2.287286, mean_action=0.143182
+  CVaR: CVaR_91%=5.3998, CVaR_92%=5.5311, CVaR_93%=5.6748, CVaR_94%=5.8473, CVaR_95%=6.0471, CVaR_96%=6.2952, CVaR_97%=6.6132, CVaR_98%=7.0301, CVaR_99%=7.8287
+Iter 290: critic_loss=0.000366, actor_loss=7.206850, V_early=162.44, mean_cost=0.005997, mean_terminal_hedging_error=-1.511366, std_terminal_hedging_error=2.521114, mean_action=0.141185
+  CVaR: CVaR_91%=5.9490, CVaR_92%=6.0838, CVaR_93%=6.2293, CVaR_94%=6.4038, CVaR_95%=6.5968, CVaR_96%=6.8340, CVaR_97%=7.1318, CVaR_98%=7.5982, CVaR_99%=8.3411
+Iter 300: critic_loss=0.000363, actor_loss=6.931206, V_early=163.42, mean_cost=0.005841, mean_terminal_hedging_error=-1.472054, std_terminal_hedging_error=2.507812, mean_action=0.143224
+  CVaR: CVaR_91%=5.8842, CVaR_92%=6.0358, CVaR_93%=6.1957, CVaR_94%=6.3813, CVaR_95%=6.5857, CVaR_96%=6.8505, CVaR_97%=7.1897, CVaR_98%=7.6811, CVaR_99%=8.4796
+Iter 310: critic_loss=0.000366, actor_loss=7.030296, V_early=164.16, mean_cost=0.006525, mean_terminal_hedging_error=-1.644281, std_terminal_hedging_error=2.538291, mean_action=0.141440
+  CVaR: CVaR_91%=6.0958, CVaR_92%=6.2407, CVaR_93%=6.3929, CVaR_94%=6.5607, CVaR_95%=6.7390, CVaR_96%=6.9607, CVaR_97%=7.2235, CVaR_98%=7.6323, CVaR_99%=8.2637
+Iter 320: critic_loss=0.000364, actor_loss=7.340499, V_early=160.23, mean_cost=0.005904, mean_terminal_hedging_error=-1.487734, std_terminal_hedging_error=2.433179, mean_action=0.142561
+  CVaR: CVaR_91%=5.8076, CVaR_92%=5.9492, CVaR_93%=6.1004, CVaR_94%=6.2866, CVaR_95%=6.4962, CVaR_96%=6.7558, CVaR_97%=7.0738, CVaR_98%=7.5175, CVaR_99%=8.1915
+Iter 330: critic_loss=0.000362, actor_loss=7.094201, V_early=162.00, mean_cost=0.006215, mean_terminal_hedging_error=-1.566283, std_terminal_hedging_error=2.544538, mean_action=0.141096
+  CVaR: CVaR_91%=6.0501, CVaR_92%=6.1854, CVaR_93%=6.3254, CVaR_94%=6.4873, CVaR_95%=6.6536, CVaR_96%=6.8570, CVaR_97%=7.1067, CVaR_98%=7.4640, CVaR_99%=7.9672
+Iter 340: critic_loss=0.000363, actor_loss=7.001145, V_early=163.11, mean_cost=0.004879, mean_terminal_hedging_error=-1.229605, std_terminal_hedging_error=2.352029, mean_action=0.144727
+  CVaR: CVaR_91%=5.5515, CVaR_92%=5.6786, CVaR_93%=5.8066, CVaR_94%=5.9531, CVaR_95%=6.1214, CVaR_96%=6.3470, CVaR_97%=6.6249, CVaR_98%=7.0224, CVaR_99%=7.6067
+Iter 350: critic_loss=0.000365, actor_loss=7.184296, V_early=162.01, mean_cost=0.005047, mean_terminal_hedging_error=-1.271736, std_terminal_hedging_error=2.354641, mean_action=0.144487
+  CVaR: CVaR_91%=5.4359, CVaR_92%=5.5733, CVaR_93%=5.7276, CVaR_94%=5.9161, CVaR_95%=6.1284, CVaR_96%=6.3917, CVaR_97%=6.7002, CVaR_98%=7.1000, CVaR_99%=7.7289
+Iter 360: critic_loss=0.000361, actor_loss=7.176503, V_early=160.75, mean_cost=0.005765, mean_terminal_hedging_error=-1.452764, std_terminal_hedging_error=2.404783, mean_action=0.142905
+  CVaR: CVaR_91%=5.7088, CVaR_92%=5.8457, CVaR_93%=5.9863, CVaR_94%=6.1542, CVaR_95%=6.3400, CVaR_96%=6.5717, CVaR_97%=6.8460, CVaR_98%=7.2690, CVaR_99%=8.0524
+Iter 370: critic_loss=0.000363, actor_loss=6.904082, V_early=164.25, mean_cost=0.005212, mean_terminal_hedging_error=-1.313324, std_terminal_hedging_error=2.414650, mean_action=0.143032
+  CVaR: CVaR_91%=5.5262, CVaR_92%=5.6636, CVaR_93%=5.8011, CVaR_94%=5.9621, CVaR_95%=6.1375, CVaR_96%=6.3655, CVaR_97%=6.6174, CVaR_98%=6.9557, CVaR_99%=7.5413
+Iter 380: critic_loss=0.000365, actor_loss=7.362810, V_early=160.83, mean_cost=0.005343, mean_terminal_hedging_error=-1.346516, std_terminal_hedging_error=2.479822, mean_action=0.142038
+  CVaR: CVaR_91%=5.7171, CVaR_92%=5.8451, CVaR_93%=5.9841, CVaR_94%=6.1478, CVaR_95%=6.3216, CVaR_96%=6.5360, CVaR_97%=6.7925, CVaR_98%=7.1725, CVaR_99%=7.7646
+Iter 390: critic_loss=0.000362, actor_loss=7.035330, V_early=162.20, mean_cost=0.005229, mean_terminal_hedging_error=-1.317641, std_terminal_hedging_error=2.335063, mean_action=0.143218
+  CVaR: CVaR_91%=5.5173, CVaR_92%=5.6520, CVaR_93%=5.8002, CVaR_94%=5.9784, CVaR_95%=6.1861, CVaR_96%=6.4567, CVaR_97%=6.7650, CVaR_98%=7.2298, CVaR_99%=7.8526
+Iter 399: critic_loss=0.000364, actor_loss=6.889206

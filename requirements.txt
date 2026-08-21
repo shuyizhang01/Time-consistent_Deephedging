@@ -1,0 +1,10 @@
+numpy==2.0.2
+pandas==2.2.2
+PyYAML==6.0.3
+scipy==1.15.3
+torch==2.8.0
+yfinance==0.2.66
+matplotlib==3.10.0
+scikit-learn==1.6.1
+tqdm==4.67.1
+arch==8.0.0

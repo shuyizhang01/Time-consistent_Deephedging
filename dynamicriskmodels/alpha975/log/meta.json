@@ -1,0 +1,18 @@
+{
+  "alpha": 0.975,
+  "scoring_fn": "log",
+  "state_dim": 19,
+  "action_dim": 4,
+  "K": 100.0,
+  "T_days": 252,
+  "n_assets": 4,
+  "transaction_cost": 0.001,
+  "actor_dim": 256,
+  "trunk_dim_var": 64,
+  "trunk_dim_excess": 64,
+  "head_dim_var": 128,
+  "head_dim_excess": 128,
+  "n_groups": 18,
+  "group_size": 14,
+  "source_model": "logalpha975.pt"
+}
