@@ -1,15 +1,3 @@
-"""
-scripts/generate_data.py
-
-One-time data generation script. Run this before any plotting.
-
-Usage
------
-    python scripts/generate_data.py --data-dir "data_path"
-
-Or, run via runpy.run_path(..., init_globals={"DATA_DIR": ...})
-"""
-
 import os
 import sys
 import json
@@ -58,7 +46,7 @@ for alpha in all_static_models:
     )
 
 
-def save_simulation(out, save_dir, save_paths=True):
+def save_simulation(out, save_dir, save_paths=True, Q_paths=None):
     os.makedirs(save_dir, exist_ok=True)
 
     (states, actions, log_probs, costs, next_states, dones,
@@ -75,10 +63,20 @@ def save_simulation(out, save_dir, save_paths=True):
         np.save(f"{save_dir}/S_paths.npy",      S_paths.cpu().numpy())
         np.save(f"{save_dir}/h_paths.npy",      h_paths.cpu().numpy())
         np.save(f"{save_dir}/R_paths.npy",      R_paths.cpu().numpy())
+        if Q_paths is not None:
+            np.save(f"{save_dir}/Q_paths.npy", Q_paths.cpu().numpy())
 
     pnl_np = terminal_pnl.cpu().numpy()
     print(f"    saved to {save_dir}")
     print(f"    terminal P&L: mean={pnl_np.mean():.4f}  CVaR95={-np.percentile(pnl_np, 5):.4f}")
+
+
+def rollout_and_save(actor, S, h, R, d, save_dir, seed_for_actor):
+    torch.manual_seed(seed_for_actor)
+    out = env.rollout_from_paths(actor, S, h, R, d, deterministic=False)
+    save_simulation(out, save_dir, save_paths=False)
+    del out
+    torch.cuda.empty_cache()
 
 
 if __name__ == "__main__":
@@ -87,8 +85,8 @@ if __name__ == "__main__":
     print(f"  seed={SEED}  batch={BATCH_SIZE}")
     print(f"{'='*60}")
 
-    fixed_S, fixed_h, fixed_R, _ = env._generate_all_paths_gpu(
-        BATCH_SIZE, seed=SEED, randomize_init=False
+    fixed_S, fixed_h, fixed_R, fixed_Q = env._generate_all_paths_gpu(
+        BATCH_SIZE, seed=SEED, randomize_init=False, nested=True
     )
     with torch.no_grad():
         fixed_d = env._price_all_episodes_batched(
@@ -97,6 +95,7 @@ if __name__ == "__main__":
 
     fixed_S_np, fixed_h_np = fixed_S.cpu().numpy(), fixed_h.cpu().numpy()
     fixed_R_np, fixed_d_np = fixed_R.cpu().numpy(), fixed_d.cpu().numpy()
+    fixed_Q_np = fixed_Q.cpu().numpy()
 
     for alpha_label in ALPHA_LABELS:
         shared_dir = os.path.join(DATA_DIR, alpha_label, "_shared_paths")
@@ -104,11 +103,12 @@ if __name__ == "__main__":
         np.save(f"{shared_dir}/S_paths.npy",      fixed_S_np)
         np.save(f"{shared_dir}/h_paths.npy",      fixed_h_np)
         np.save(f"{shared_dir}/R_paths.npy",      fixed_R_np)
+        np.save(f"{shared_dir}/Q_paths.npy",      fixed_Q_np)
         np.save(f"{shared_dir}/deriv_prices.npy", fixed_d_np)
         print(f"    fixed paths saved to {shared_dir}")
 
         for sk in SCORING_KEYS:
-            print(f"  fixed rollout {alpha_label} / {sk} ...")
+            print(f"  fixed rollout {alpha_label} / {sk} (deterministic) ...")
             actor    = all_models[alpha_label][sk]["actor"]
             save_dir = os.path.join(shared_dir, sk)
             out = env.rollout_from_paths(
@@ -118,6 +118,13 @@ if __name__ == "__main__":
             save_simulation(out, save_dir, save_paths=False)
             del out
             torch.cuda.empty_cache()
+
+            print(f"  fixed rollout {alpha_label} / {sk} (stochastic policy, std=1e-3) ...")
+            rollout_and_save(
+                actor, fixed_S, fixed_h, fixed_R, fixed_d,
+                os.path.join(shared_dir, sk, "stochastic_policy"),
+                seed_for_actor=SEED,
+            )
 
         print(f"  fixed rollout {alpha_label} / static ...")
         static_actor = all_static_models[alpha_label]["actor"]
@@ -130,7 +137,15 @@ if __name__ == "__main__":
         del out
         torch.cuda.empty_cache()
 
-    del fixed_S, fixed_h, fixed_R, fixed_d, fixed_S_np, fixed_h_np, fixed_R_np, fixed_d_np
+        print(f"  fixed rollout {alpha_label} / static (stochastic policy, std=1e-3) ...")
+        rollout_and_save(
+            static_actor, fixed_S, fixed_h, fixed_R, fixed_d,
+            os.path.join(shared_dir, "static", "stochastic_policy"),
+            seed_for_actor=SEED,
+        )
+
+    del fixed_S, fixed_h, fixed_R, fixed_Q, fixed_d
+    del fixed_S_np, fixed_h_np, fixed_R_np, fixed_Q_np, fixed_d_np
     torch.cuda.empty_cache()
 
     for alpha_label in ALPHA_LABELS:
@@ -139,8 +154,8 @@ if __name__ == "__main__":
         print(f"  alpha={alpha_label}  seed={SEED}  batch={BATCH_SIZE}")
         print(f"{'='*60}")
 
-        stoch_S, stoch_h, stoch_R, _ = env._generate_all_paths_gpu(
-            BATCH_SIZE, seed=SEED, randomize_init=True
+        stoch_S, stoch_h, stoch_R, stoch_Q = env._generate_all_paths_gpu(
+            BATCH_SIZE, seed=SEED, randomize_init=True, nested=True
         )
         with torch.no_grad():
             stoch_d = env._price_all_episodes_batched(
@@ -152,16 +167,24 @@ if __name__ == "__main__":
         np.save(f"{alpha_dir}/S_paths.npy",      stoch_S.cpu().numpy())
         np.save(f"{alpha_dir}/h_paths.npy",      stoch_h.cpu().numpy())
         np.save(f"{alpha_dir}/R_paths.npy",      stoch_R.cpu().numpy())
+        np.save(f"{alpha_dir}/Q_paths.npy",      stoch_Q.cpu().numpy())
         np.save(f"{alpha_dir}/deriv_prices.npy", stoch_d.cpu().numpy())
 
         for sk in SCORING_KEYS:
-            print(f"  {alpha_label} / {sk}")
+            print(f"  {alpha_label} / {sk} (deterministic)")
             actor    = all_models[alpha_label][sk]["actor"]
             save_dir = os.path.join(DATA_DIR, alpha_label, sk)
             out = env.rollout_from_paths(actor, stoch_S, stoch_h, stoch_R, stoch_d, deterministic=True)
             save_simulation(out, save_dir, save_paths=False)
             del out
             torch.cuda.empty_cache()
+
+            print(f"  {alpha_label} / {sk} (stochastic policy, std=1e-3)")
+            rollout_and_save(
+                actor, stoch_S, stoch_h, stoch_R, stoch_d,
+                os.path.join(DATA_DIR, alpha_label, sk, "stochastic_policy"),
+                seed_for_actor=SEED,
+            )
 
         print(f"\n  {alpha_label} / static")
         static_actor = all_static_models[alpha_label]["actor"]
@@ -174,7 +197,14 @@ if __name__ == "__main__":
         del out
         torch.cuda.empty_cache()
 
-        del stoch_S, stoch_h, stoch_R, stoch_d
+        print(f"  {alpha_label} / static (stochastic policy, std=1e-3)")
+        rollout_and_save(
+            static_actor, stoch_S, stoch_h, stoch_R, stoch_d,
+            os.path.join(DATA_DIR, alpha_label, "static", "stochastic_policy"),
+            seed_for_actor=SEED,
+        )
+
+        del stoch_S, stoch_h, stoch_R, stoch_Q, stoch_d
         torch.cuda.empty_cache()
 
     print(f"\nDone. All data saved to {DATA_DIR}/")
