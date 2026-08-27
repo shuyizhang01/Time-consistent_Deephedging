@@ -1910,14 +1910,19 @@ def plot_training_curves_by_scoring(
 # 6b. Dynamic risk table -- mean critic-estimated risk at fixed-month
 #      increments, normalized by each path's initial derivative price
 # ---------------------------------------------------------------------------
+
 def compute_fixed_price_comparison(
-    all_models:   dict,
-    all_norms:    dict,
-    data_dir:     str   = "content/data",
-    save_dir:     str   = ".",
-    device:       str   = None,
-    alpha_labels: list  = None,
-    scoring_keys: list  = None,
+    all_models:        dict,
+    all_norms:         dict,
+    data_dir:          str   = "content/data",
+    save_dir:          str   = ".",
+    device:            str   = None,
+    alpha_labels:      list  = None,
+    scoring_keys:      list  = None,
+    CriticVaR                = None,
+    nested_ckpt_paths: dict  = None,
+    nested_hidden_dim: int   = 128,
+    nested_n_layers:   int   = 2,
 ) -> pd.DataFrame:
     """
     Price comparison at the FIXED initial condition (S_0=[100,100,100,100],
@@ -1929,7 +1934,13 @@ def compute_fixed_price_comparison(
         DRM_price = critic_risk_t0(Z_0 - B) + B_0
     and, on the SAME fixed paths, the price the static (SRM) agent implies:
         SRM_price = CVaR_alpha(-terminal_pnl_static) + B_0
-    B_0 is the mean initial basket/derivative price along the fixed paths
+    B_0 is the mean initial basket/derivative price along the fixed paths.
+
+    nested_ckpt_paths: optional dict mapping (alpha_label, scoring_fn) -> checkpoint
+    path for a nested-critic model (trained via train_critics_nested.py, single
+    group spanning all T). Where present, also computes:
+        Nested_price = nested_critic_t0(states_t0) + b_0 + B_0
+    using the SAME fixed-path states_t0 and B_0_mean as the DRM/SRM prices.
     """
     if alpha_labels is None:
         alpha_labels = ALPHA_LABELS
@@ -1937,6 +1948,8 @@ def compute_fixed_price_comparison(
         scoring_keys = SCORING_KEYS
     if device is None:
         device = "cuda" if torch.cuda.is_available() else "cpu"
+    if nested_ckpt_paths is None:
+        nested_ckpt_paths = {}
 
     alpha_vals = {"alpha925": 0.925, "alpha95": 0.95, "alpha975": 0.975, "alpha99": 0.99}
 
@@ -1944,6 +1957,24 @@ def compute_fixed_price_comparison(
         cutoff = np.quantile(losses, alpha)
         tail   = losses[losses >= cutoff]
         return float(tail.mean()) if len(tail) > 0 else float(cutoff)
+
+  def _nested_price_t0(ckpt_path, states_t0, T):
+      ckpt = torch.load(ckpt_path, map_location="cpu", weights_only=False)
+      critic = CriticVaR(
+          env.state_dim, T,
+          hidden_dim=nested_hidden_dim,
+          n_layers=nested_n_layers,
+          device=device,
+      )
+      critic.load_state_dict(ckpt["critics"][0])
+      critic.to(device).eval()
+  
+      with torch.no_grad():
+          val = critic.forward_single_head(states_t0, local_t=0)
+  
+      critic.to("cpu")
+      torch.cuda.empty_cache()
+      return float(val.mean().cpu())
 
     rows = []
     for alpha_label in alpha_labels:
@@ -1957,7 +1988,7 @@ def compute_fixed_price_comparison(
             continue
         B0_mean = float(np.load(deriv_path)[:, 0].mean())
         print(f"average price: {B0_mean}, path 0 price: {float(np.load(deriv_path)[0, 0])}")
-        # --- SRM / static price on the fixed paths -------------------------
+
         static_pnl_path = os.path.join(shared_dir, "static", "terminal_pnl.npy")
         if os.path.exists(static_pnl_path):
             static_losses = -np.load(static_pnl_path)
@@ -1967,7 +1998,6 @@ def compute_fixed_price_comparison(
                   f"({static_pnl_path}) -- SRM_price will be NaN.")
             srm_price = float("nan")
 
-        # --- DRM price per scoring function --------------------------------
         for sk in scoring_keys:
             bundle      = all_models.get(alpha_label, {}).get(sk)
             states_path = os.path.join(shared_dir, sk, "states.npy")
@@ -1975,26 +2005,31 @@ def compute_fixed_price_comparison(
                 print(f"  [skip] {alpha_label}/{sk}: missing model or fixed rollout states")
                 continue
 
-            states_t0 = np.load(states_path)[0]  # t=0 slice, [n_paths, state_dim]
+            states_t0 = np.load(states_path)[0]
             states_t0 = torch.tensor(states_t0, dtype=torch.float32, device=device)
 
             b_values = all_norms[alpha_label][sk]["b_values"]
             critics  = [c.to(device).eval() for c in bundle["critics"]]
             n_groups = len(critics)
 
-            # t=0 -> group 0, local_t=0, reverse-indexed bias b_values[n_groups-1]
-            # (same critic-indexing convention as compute_dynamic_risk_table)
             with torch.no_grad():
                 v, e = critics[0].forward_single_head(states_t0, 0)
                 risk_t0 = (v + e).reshape(-1) + b_values[n_groups - 1]
 
             drm_price = float(risk_t0.mean().cpu()) + B0_mean
 
+            nested_price = float("nan")
+            nested_key = (alpha_label, sk)
+            if nested_key in nested_ckpt_paths:
+                T = env.T_days
+                nested_price = _nested_price_t0(nested_ckpt_paths[nested_key], states_t0, T) + B0_mean
+
             rows.append({
-                "alpha":      alpha_label,
-                "scoring_fn": sk,
-                "DRM_price":  drm_price,
-                "SRM_price":  srm_price,
+                "alpha":        alpha_label,
+                "scoring_fn":   sk,
+                "DRM_price":    drm_price,
+                "SRM_price":    srm_price,
+                "Nested_price": nested_price,
             })
 
             for c in critics:
@@ -2017,5 +2052,10 @@ def compute_fixed_price_comparison(
     print("\nDRM price by (alpha x scoring_fn), SRM price for reference "
           "(fixed S0=[100,100,100,100], h0=unconditional variance):")
     print(pivot)
+
+    nested_rows = df[df["Nested_price"].notna()]
+    if not nested_rows.empty:
+        print("\nNested price (where computed):")
+        print(nested_rows[["alpha", "scoring_fn", "Nested_price"]])
 
     return df
