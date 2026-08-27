@@ -1919,6 +1919,7 @@ def compute_fixed_price_comparison(
     device:            str   = None,
     alpha_labels:      list  = None,
     scoring_keys:      list  = None,
+    env                      = None,
     CriticVaR                = None,
     nested_ckpt_paths: dict  = None,
     nested_hidden_dim: int   = 128,
@@ -1939,8 +1940,9 @@ def compute_fixed_price_comparison(
     nested_ckpt_paths: optional dict mapping (alpha_label, scoring_fn) -> checkpoint
     path for a nested-critic model (trained via train_critics_nested.py, single
     group spanning all T). Where present, also computes:
-        Nested_price = nested_critic_t0(states_t0) + b_0 + B_0
+        Nested_price = nested_critic_t0(states_t0) + B_0
     using the SAME fixed-path states_t0 and B_0_mean as the DRM/SRM prices.
+    (No b-shift is added back for the nested price.)
     """
     if alpha_labels is None:
         alpha_labels = ALPHA_LABELS
@@ -1950,6 +1952,8 @@ def compute_fixed_price_comparison(
         device = "cuda" if torch.cuda.is_available() else "cpu"
     if nested_ckpt_paths is None:
         nested_ckpt_paths = {}
+    if nested_ckpt_paths and env is None:
+        raise ValueError("env must be provided when nested_ckpt_paths is non-empty")
 
     alpha_vals = {"alpha925": 0.925, "alpha95": 0.95, "alpha975": 0.975, "alpha99": 0.99}
 
@@ -1968,10 +1972,10 @@ def compute_fixed_price_comparison(
         )
         critic.load_state_dict(ckpt["critics"][0])
         critic.to(device).eval()
-    
+
         with torch.no_grad():
             val = critic.forward_single_head(states_t0, local_t=0)
-    
+
         critic.to("cpu")
         torch.cuda.empty_cache()
         return float(val.mean().cpu())
