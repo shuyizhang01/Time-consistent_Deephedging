@@ -1958,23 +1958,23 @@ def compute_fixed_price_comparison(
         tail   = losses[losses >= cutoff]
         return float(tail.mean()) if len(tail) > 0 else float(cutoff)
 
-  def _nested_price_t0(ckpt_path, states_t0, T):
-      ckpt = torch.load(ckpt_path, map_location="cpu", weights_only=False)
-      critic = CriticVaR(
-          env.state_dim, T,
-          hidden_dim=nested_hidden_dim,
-          n_layers=nested_n_layers,
-          device=device,
-      )
-      critic.load_state_dict(ckpt["critics"][0])
-      critic.to(device).eval()
-  
-      with torch.no_grad():
-          val = critic.forward_single_head(states_t0, local_t=0)
-  
-      critic.to("cpu")
-      torch.cuda.empty_cache()
-      return float(val.mean().cpu())
+    def _nested_price_t0(ckpt_path, states_t0, T):
+        ckpt = torch.load(ckpt_path, map_location="cpu", weights_only=False)
+        critic = CriticVaR(
+            env.state_dim, T,
+            hidden_dim=nested_hidden_dim,
+            n_layers=nested_n_layers,
+            device=device,
+        )
+        critic.load_state_dict(ckpt["critics"][0])
+        critic.to(device).eval()
+    
+        with torch.no_grad():
+            val = critic.forward_single_head(states_t0, local_t=0)
+    
+        critic.to("cpu")
+        torch.cuda.empty_cache()
+        return float(val.mean().cpu())
 
     rows = []
     for alpha_label in alpha_labels:
