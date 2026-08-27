@@ -2026,7 +2026,7 @@ def compute_fixed_price_comparison(
             nested_key = (alpha_label, sk)
             if nested_key in nested_ckpt_paths:
                 T = env.T_days
-                nested_price = _nested_price_t0(nested_ckpt_paths[nested_key], states_t0, T) + B0_mean
+                nested_price = _nested_price_t0(nested_ckpt_paths[nested_key], states_t0, T)
 
             rows.append({
                 "alpha":        alpha_label,
