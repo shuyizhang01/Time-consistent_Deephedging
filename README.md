@@ -1,6 +1,4 @@
-This repository contains the Python code to replicate the experiments in the paper *Insights on Time-consistent Deep Hedging under Elicitable Dynamic Risk Measures* by Shuyi Zhang `szhang48@terpmail.umd.edu` and Frederic Godin `frederic.godin@concordia.ca`.
----
-
+## This repository contains the Python code to replicate the experiments in the paper [*Insights on Time-consistent Deep Hedging under Elicitable Dynamic Risk Measures*](https://arxiv.org/abs/2609.02014) by Shuyi Zhang `szhang48@terpmail.umd.edu` and Frederic Godin `frederic.godin@concordia.ca`.
 ## Overview
 
 We study a deep hedging framework in which the hedging agent offsets the risk of a European basket call option in a time-consistent fashion by minimizing the dynamic CVaR of costs in a high-dimensional setting. We employ a conditionally elicitable actor-critic RL algorithm and exploit the translation invariance of spectral risk measures to shift the estimation of dynamic risk into more desirable regions of the scoring function for CVaR. We apply this framework to a basket option on 4 underlying assets evolving under a DCC-GARCH(1, 1) model across 1-year time grid with daily increments, and compare the trained dynamic risk (time-consistent) models against a static risk (precommitment) model across 4 confidence levels (92.5%, 95%, 97.5%, 99%) and 6 possible strictly-consistent scoring functions. 
