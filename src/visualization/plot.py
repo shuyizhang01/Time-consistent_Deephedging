@@ -1924,21 +1924,10 @@ def compute_fixed_price_comparison(
     nested_ckpt_paths: dict  = None,
     nested_hidden_dim: int   = 128,
     nested_n_layers:   int   = 2,
+    plot_full_timeseries: bool = True,
+    plot_alpha_label:     str  = "alpha95",
+    plot_scoring_key:     str  = "log",
 ) -> pd.DataFrame:
-    """
-    For every (alpha, scoring_fn), reconstructs the price the DRM agent
-    implies at t=0:
-        DRM_price = critic_risk_t0(Z_0 - B) + B_0
-    and, on the SAME fixed paths, the price the static (SRM) agent implies:
-        SRM_price = CVaR_alpha(-terminal_pnl_static) + B_0
-    B_0 is the mean initial basket/derivative price along the fixed paths.
-
-    nested_ckpt_paths: optional dict mapping (alpha_label, scoring_fn) -> checkpoint
-    path for a nested-critic model (trained via train_critics_nested.py, single
-    group spanning all T). 
-    Where present, also computes:
-        Nested_price = nested_critic_t0(states_t0) + B_0.
-    """
     if alpha_labels is None:
         alpha_labels = ALPHA_LABELS
     if scoring_keys is None:
@@ -1957,7 +1946,7 @@ def compute_fixed_price_comparison(
         tail   = losses[losses >= cutoff]
         return float(tail.mean()) if len(tail) > 0 else float(cutoff)
 
-    def _nested_price_t0(ckpt_path, states_t0, T):
+    def _nested_price_t0(ckpt_path, states_t0, T, B0_mean):
         ckpt = torch.load(ckpt_path, map_location="cpu", weights_only=False)
         critic = CriticVaR(
             env.state_dim, T,
@@ -1973,7 +1962,7 @@ def compute_fixed_price_comparison(
 
         critic.to("cpu")
         torch.cuda.empty_cache()
-        return float(val.mean().cpu())
+        return float(val.mean().cpu()) + B0_mean
 
     rows = []
     for alpha_label in alpha_labels:
@@ -2021,7 +2010,7 @@ def compute_fixed_price_comparison(
             nested_key = (alpha_label, sk)
             if nested_key in nested_ckpt_paths:
                 T = env.T_days
-                nested_price = _nested_price_t0(nested_ckpt_paths[nested_key], states_t0, T)
+                nested_price = _nested_price_t0(nested_ckpt_paths[nested_key], states_t0, T, B0_mean)
 
             rows.append({
                 "alpha":        alpha_label,
@@ -2056,5 +2045,65 @@ def compute_fixed_price_comparison(
     if not nested_rows.empty:
         print("\nNested price (where computed):")
         print(nested_rows[["alpha", "scoring_fn", "Nested_price"]])
+
+    if plot_full_timeseries and (plot_alpha_label, plot_scoring_key) in nested_ckpt_paths:
+        shared_dir = os.path.join(data_dir, plot_alpha_label, "_shared_paths")
+        B0_mean = float(np.load(os.path.join(shared_dir, "deriv_prices.npy"))[:, 0].mean())
+
+        bundle   = all_models[plot_alpha_label][plot_scoring_key]
+        b_values = all_norms[plot_alpha_label][plot_scoring_key]["b_values"]
+        critics  = [c.to(device).eval() for c in bundle["critics"]]
+        n_groups = len(critics)
+        T        = env.T_days
+        group_size = T // n_groups
+
+        states_np = np.load(os.path.join(shared_dir, plot_scoring_key, "states.npy"))
+        states_t  = torch.tensor(states_np, dtype=torch.float32, device=device)
+
+        drm_series = np.zeros(T)
+        with torch.no_grad():
+            for g in range(n_groups):
+                gs, ge = g * group_size, (g + 1) * group_size
+                v, e = critics[g](states_t[gs:ge])
+                drm_series[gs:ge] = (
+                    (v + e).squeeze(-1) + b_values[n_groups - 1 - g]
+                ).mean(dim=1).cpu().numpy()
+        drm_series += B0_mean
+
+        for c in critics:
+            c.to("cpu")
+        torch.cuda.empty_cache()
+
+        ckpt = torch.load(nested_ckpt_paths[(plot_alpha_label, plot_scoring_key)],
+                           map_location="cpu", weights_only=False)
+        nested_critic = CriticVaR(
+            env.state_dim, T,
+            hidden_dim=nested_hidden_dim,
+            n_layers=nested_n_layers,
+            device=device,
+        )
+        nested_critic.load_state_dict(ckpt["critics"][0])
+        nested_critic.to(device).eval()
+
+        with torch.no_grad():
+            nested_series = nested_critic.forward_chunked(states_t, chunk=16384).mean(dim=1).cpu().numpy()
+        nested_series += B0_mean
+
+        nested_critic.to("cpu")
+        torch.cuda.empty_cache()
+
+        t_axis = np.arange(T) / 252
+        fig, ax = plt.subplots(figsize=(13, 4.5))
+        ax.plot(t_axis, drm_series, color=SCORING_COLOR.get(plot_scoring_key, "#4C8FE8"),
+                linewidth=1.6, label=f"DRM - {plot_scoring_key}")
+        ax.plot(t_axis, nested_series, color="black", linewidth=1.6, linestyle="--",
+                label=f"Nested - {plot_scoring_key}")
+        ax.legend(frameon=False, loc="upper right", fontsize=FONT_LEGEND)
+        ax.set_xlabel("Time (years)", fontsize=FONT_LABEL)
+        ax.set_ylabel("Estimated Price", fontsize=FONT_LABEL)
+        _style_ax(ax)
+        plt.tight_layout()
+        _save(fig, save_dir, f"DRM_vs_Nested_{plot_alpha_label}_{plot_scoring_key}")
+        plt.show()
 
     return df
