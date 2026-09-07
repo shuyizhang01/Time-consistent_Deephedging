@@ -1962,7 +1962,7 @@ def compute_fixed_price_comparison(
 
         critic.to("cpu")
         torch.cuda.empty_cache()
-        return float(val.mean().cpu()) + B0_mean
+        return float(val.mean().cpu()) + B0_accrued
 
     rows = []
     for alpha_label in alpha_labels:
