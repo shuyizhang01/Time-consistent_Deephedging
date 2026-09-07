@@ -2095,15 +2095,15 @@ def compute_fixed_price_comparison(
         t_axis = np.arange(T) / 252
         fig, ax = plt.subplots(figsize=(13, 4.5))
         ax.plot(t_axis, drm_series, color=SCORING_COLOR.get(plot_scoring_key, "#4C8FE8"),
-                linewidth=1.6, label=f"DRM - {plot_scoring_key}")
+                linewidth=1.6, label=f"RL-based")
         ax.plot(t_axis, nested_series, color="black", linewidth=1.6, linestyle="--",
-                label=f"Nested - {plot_scoring_key}")
+                label=f"Nested")
         ax.legend(frameon=False, loc="upper right", fontsize=FONT_LEGEND)
         ax.set_xlabel("Time (years)", fontsize=FONT_LABEL)
-        ax.set_ylabel("Estimated Price", fontsize=FONT_LABEL)
+        ax.set_ylabel("Dynamic Risk", fontsize=FONT_LABEL)
         _style_ax(ax)
         plt.tight_layout()
-        _save(fig, save_dir, f"DRM_vs_Nested_{plot_alpha_label}_{plot_scoring_key}")
+        _save(fig, save_dir, f"RLbased_vs_Nested_{plot_alpha_label}_{plot_scoring_key}")
         plt.show()
 
     return df
