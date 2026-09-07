@@ -1926,10 +1926,6 @@ def compute_fixed_price_comparison(
     nested_n_layers:   int   = 2,
 ) -> pd.DataFrame:
     """
-    Price comparison at the FIXED initial condition (S_0=[100,100,100,100],
-    h_0=unconditional variance) -- the '_shared_paths' rollouts, not the
-    stochastic-initial-condition validation paths used elsewhere.
-
     For every (alpha, scoring_fn), reconstructs the price the DRM agent
     implies at t=0:
         DRM_price = critic_risk_t0(Z_0 - B) + B_0
@@ -1939,10 +1935,9 @@ def compute_fixed_price_comparison(
 
     nested_ckpt_paths: optional dict mapping (alpha_label, scoring_fn) -> checkpoint
     path for a nested-critic model (trained via train_critics_nested.py, single
-    group spanning all T). Where present, also computes:
-        Nested_price = nested_critic_t0(states_t0) + B_0
-    using the SAME fixed-path states_t0 and B_0_mean as the DRM/SRM prices.
-    (No b-shift is added back for the nested price.)
+    group spanning all T). 
+    Where present, also computes:
+        Nested_price = nested_critic_t0(states_t0) + B_0.
     """
     if alpha_labels is None:
         alpha_labels = ALPHA_LABELS
