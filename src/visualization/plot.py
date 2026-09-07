@@ -1946,7 +1946,7 @@ def compute_fixed_price_comparison(
         tail   = losses[losses >= cutoff]
         return float(tail.mean()) if len(tail) > 0 else float(cutoff)
 
-    def _nested_price_t0(ckpt_path, states_t0, T):
+    def _nested_price_t0(ckpt_path, states_t0, T, B0_mean):
         ckpt = torch.load(ckpt_path, map_location="cpu", weights_only=False)
         critic = CriticVaR(
             env.state_dim, T,
@@ -1962,7 +1962,7 @@ def compute_fixed_price_comparison(
 
         critic.to("cpu")
         torch.cuda.empty_cache()
-        return float(val.mean().cpu())
+        return float(val.mean().cpu()) + B0_mean
 
     rows = []
     for alpha_label in alpha_labels:
@@ -1974,13 +1974,13 @@ def compute_fixed_price_comparison(
             print(f"  ! missing fixed shared paths for {alpha_label} ({deriv_path}) "
                   f"-- re-run generate_data.py's fixed-path block. Skipping.")
             continue
-        B0_mean = float(np.load(deriv_path)[:, 0].mean())
+        B0_mean = float(np.load(deriv_path)[:, 0].mean()) * np.exp(env.r_daily * 252) #without .mean, this variable should be the same value (fixed initial state).
         print(f"average price: {B0_mean}, path 0 price: {float(np.load(deriv_path)[0, 0])}")
 
         static_pnl_path = os.path.join(shared_dir, "static", "terminal_pnl.npy")
         if os.path.exists(static_pnl_path):
             static_losses = -np.load(static_pnl_path)
-            srm_price     = _cvar(static_losses, alpha_val)
+            srm_price     = _cvar(static_losses, alpha_val) + B0_mean
         else:
             print(f"  ! missing fixed static rollout for {alpha_label} "
                   f"({static_pnl_path}) -- SRM_price will be NaN.")
@@ -2004,13 +2004,13 @@ def compute_fixed_price_comparison(
                 v, e = critics[0].forward_single_head(states_t0, 0)
                 risk_t0 = (v + e).reshape(-1) + b_values[n_groups - 1]
 
-            drm_price = float(risk_t0.mean().cpu())
+            drm_price = float(risk_t0.mean().cpu()) + B0_mean
 
             nested_price = float("nan")
             nested_key = (alpha_label, sk)
             if nested_key in nested_ckpt_paths:
                 T = env.T_days
-                nested_price = _nested_price_t0(nested_ckpt_paths[nested_key], states_t0, T)
+                nested_price = _nested_price_t0(nested_ckpt_paths[nested_key], states_t0, T, B0_mean)
 
             rows.append({
                 "alpha":        alpha_label,
