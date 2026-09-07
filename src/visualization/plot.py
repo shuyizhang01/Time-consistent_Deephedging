@@ -1974,7 +1974,7 @@ def compute_fixed_price_comparison(
             print(f"  ! missing fixed shared paths for {alpha_label} ({deriv_path}) "
                   f"-- re-run generate_data.py's fixed-path block. Skipping.")
             continue
-        B0_mean = float(np.load(deriv_path)[:, 0].mean()) * np.exp(env.r_daily * 252) #without .mean, this variable should be the same value (fixed initial state).
+        B0_mean = float(np.load(deriv_path)[:, 0].mean()) * torch.exp(env.r_daily * 252).item() #without .mean, this variable should be the same value (fixed initial state).
         print(f"average price: {B0_mean}, path 0 price: {float(np.load(deriv_path)[0, 0])}")
 
         static_pnl_path = os.path.join(shared_dir, "static", "terminal_pnl.npy")
