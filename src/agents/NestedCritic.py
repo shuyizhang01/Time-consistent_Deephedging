@@ -5,7 +5,7 @@ import torch.nn.functional as F
 
 
 
-class CriticVaR(nn.Module):
+class CriticCVaR(nn.Module):
     def __init__(self, state_dim, group_size, hidden_dim=64, n_layers=None, device='cpu'):
         super().__init__()
         self.group_size = group_size
