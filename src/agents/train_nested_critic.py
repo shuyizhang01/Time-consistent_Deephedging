@@ -5,7 +5,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 import numpy as np
 import os
-from src.agents.NestedCritic import CriticVaR
+from src.agents.NestedCritic import CriticCVaR
 
 
 torch.backends.cuda.matmul.allow_tf32 = True
@@ -299,7 +299,7 @@ def compute_target_cvars_from_cache(inner_cache, start_t, end_t, costs, targets,
     return target_cvars
 
 
-class CriticVaR(nn.Module):
+class CriticCVaR(nn.Module):
     def __init__(self, state_dim, group_size, hidden_dim=64, n_layers=None, device='cpu'):
         super().__init__()
         self.group_size = group_size
@@ -354,10 +354,10 @@ def build_critics_targets_opts_scheds(env, n_groups, hidden_dim, n_layers, criti
     assert env.T_days % n_groups == 0
 
     critics = nn.ModuleList([
-        CriticVaR(env.state_dim, group_size, hidden_dim, n_layers, device=env.device) for _ in range(n_groups)
+        CriticCVaR(env.state_dim, group_size, hidden_dim, n_layers, device=env.device) for _ in range(n_groups)
     ])
     targets = nn.ModuleList([
-        CriticVaR(env.state_dim, group_size, hidden_dim, n_layers, device=env.device) for _ in range(n_groups)
+        CriticCVaR(env.state_dim, group_size, hidden_dim, n_layers, device=env.device) for _ in range(n_groups)
     ])
 
     optimizers = [
