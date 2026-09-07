@@ -55,4 +55,4 @@ PYTHONPATH="path_to_cloned_repo" \
     --device cuda
 ```
 
-The risk level, scoring function, and other experiment settings can be modified in the corresponding configuration files in `cfgs/`. The figures/plots in the paper and the code to generate them can be seen in the notebook48da0ae207.ipynb file and 'src/visualization/plots.py'. Training logs for the dynamic risk models can be seen in `training_run_logs/`, and the dynamic risk and static risk model weights can be seen in `dynamicriskmodels/` and `staticriskmodels/` respectively.
+The risk level, scoring function, and other experiment settings can be modified in the corresponding configuration files in `cfgs/`. The figures/plots in the paper and the code to generate them can be seen in the `notebook48da0ae207.ipynb` file and `src/visualization/plots.py`. Training logs for the dynamic risk models can be seen in `training_run_logs/`, and the dynamic risk and static risk model weights can be seen in `dynamicriskmodels/` and `staticriskmodels/` respectively.
