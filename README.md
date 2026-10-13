@@ -40,7 +40,7 @@ First, clone the repository. Ensure that [Git LFS](https://git-lfs.com/) is inst
 apt-get update -qq && apt-get install -y git-lfs
 ```
 
-then run the following commands to initialize Git LFS and download the basket pricing model from the repository root:
+Then, enter the repository root. Tun the following commands to initialize Git LFS and download the basket pricing model:
 
 ```bash
 git lfs install
@@ -52,8 +52,7 @@ Install the required Python dependencies if desired (though not needed in most n
 pip install -r requirements.txt
 ```
 
-Then, run the experiment using the provided configuration files as follows 
-(make you run this from your working directory, not your repository root):
+Next, run the experiment using the provided configuration files as follows:
 
 ```bash
 PYTHONPATH="path_to_cloned_repo" \
