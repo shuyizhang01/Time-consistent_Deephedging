@@ -34,20 +34,21 @@ This is in contrast to results from the static risk policy, whose hedging risk i
 
 ## Running the Experiments
 
-First, clone the repository. Ensure that [Git LFS](https://git-lfs.com/) is installed, then run the following commands from the repository root to initialize Git LFS and download the model files:
+First, clone the repository. Ensure that [Git LFS](https://git-lfs.com/) is installed, 
+then run the following commands from the repository root to initialize Git LFS and download the basket pricing model:
 
 ```bash
 git lfs install
-git lfs pull
+git lfs pull -I "src/basket_pricing/artifacts/basket_system_dcc_surrogate.pkl"
 ```
-
-Install the required Python dependencies from the repository root:
+Make sure to install the required Python dependencies from the repository root:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Navigate to the cloned repository directory. Then run the desired experiment using the provided configuration files as follows:
+Finally, you can run the desired experiment using the provided configuration files as follows 
+(make sure to do this from the repository root):
 
 ```bash
 PYTHONPATH="path_to_cloned_repo" \
@@ -63,4 +64,15 @@ PYTHONPATH="path_to_cloned_repo" \
     --device cuda
 ```
 
-The risk level, scoring function, and other experiment settings can be modified in the corresponding configuration files in `cfgs/`. The figures/plots in the paper and the code to generate them can be seen in the `notebook48da0ae207 (1).ipynb` file and `src/visualization/plot.py`. Training logs for the dynamic risk models can be seen in `training_run_logs/`, and the dynamic risk and static risk model weights can be seen in `dynamicriskmodels/` and `staticriskmodels/` respectively.
+The risk level, scoring function, and other experiment settings can be seen in the corresponding configuration files in `cfgs/`. 
+The figures/plots in the paper and the code to generate them can be seen in the `notebook48da0ae207 (1).ipynb` file and `src/visualization/plot.py`. 
+Training logs for the dynamic risk models can be seen in `training_run_logs/`, and the dynamic risk and static risk model weights can be seen in `dynamicriskmodels/` and `staticriskmodels/` respectively.
+If you wish to download dynamic risk or static risk models, run the following commands:
+```bash
+git lfs pull -I "dynamicriskmodels/**" 
+```
+or
+```bash
+git lfs pull -I "staticriskmodels/**" 
+```
+
