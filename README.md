@@ -46,13 +46,13 @@ then run the following commands to initialize Git LFS and download the basket pr
 git lfs install
 git lfs pull -I "src/basket_pricing/artifacts/basket_system_dcc_surrogate.pkl"
 ```
-Make sure to install the required Python dependencies:
+Install the required Python dependencies if desired (though not needed in most notebook environments):
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Then, run the desired experiment using the provided configuration files as follows 
+Then, run the experiment using the provided configuration files as follows 
 (make you run this from your working directory, not your repository root):
 
 ```bash
