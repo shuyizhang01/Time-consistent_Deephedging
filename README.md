@@ -30,16 +30,24 @@ This is in contrast to results from the static risk policy, whose hedging risk i
 ├── logs/                 # Example output logs
 ├── Figures_Tables.ipynb  # Figures and tables from the paper
 └── requirements.txt
+```
 
 ## Running the Experiments
 
-From the repository root, install the required dependencies:
+First, clone the repository. Ensure that [Git LFS](https://git-lfs.com/) is installed, then run the following commands from the repository root to initialize Git LFS and download the model files:
+
+```bash
+git lfs install
+git lfs pull
+```
+
+Install the required Python dependencies from the repository root:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-First, navigate to the cloned repository directory. Then run the desired experiment using the provided configuration files as follows:
+Navigate to the cloned repository directory. Then run the desired experiment using the provided configuration files as follows:
 
 ```bash
 PYTHONPATH="path_to_cloned_repo" \
