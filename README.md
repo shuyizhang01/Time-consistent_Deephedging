@@ -47,7 +47,7 @@ Make sure to install the required Python dependencies from the repository root:
 pip install -r requirements.txt
 ```
 
-Finally, you can run the desired experiment using the provided configuration files as follows 
+Then, run the desired experiment using the provided configuration files as follows 
 (make sure to do this from the repository root):
 
 ```bash
