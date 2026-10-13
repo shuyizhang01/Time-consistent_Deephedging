@@ -48,7 +48,7 @@ pip install -r requirements.txt
 ```
 
 Then, run the desired experiment using the provided configuration files as follows 
-(make sure to do this from the repository root):
+(make sure to do this from the repository root:
 
 ```bash
 PYTHONPATH="path_to_cloned_repo" \
