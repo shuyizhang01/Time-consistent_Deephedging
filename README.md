@@ -40,7 +40,7 @@ First, clone the repository. Ensure that [Git LFS](https://git-lfs.com/) is inst
 apt-get update -qq && apt-get install -y git-lfs
 ```
 
-Then, enter the repository root. Tun the following commands to initialize Git LFS and download the basket pricing model:
+Then, enter the repository root. Tune the following commands to initialize Git LFS and download the basket pricing model:
 
 ```bash
 git lfs install
