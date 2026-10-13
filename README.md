@@ -41,7 +41,7 @@ then run the following commands from the repository root to initialize Git LFS a
 git lfs install
 git lfs pull -I "src/basket_pricing/artifacts/basket_system_dcc_surrogate.pkl"
 ```
-Make sure to install the required Python dependencies from the repository root:
+Make sure to install the required Python dependencies:
 
 ```bash
 pip install -r requirements.txt
