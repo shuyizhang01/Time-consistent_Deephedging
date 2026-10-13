@@ -34,8 +34,13 @@ This is in contrast to results from the static risk policy, whose hedging risk i
 
 ## Running the Experiments
 
-First, clone the repository. Ensure that [Git LFS](https://git-lfs.com/) is installed, 
-then run the following commands from the repository root to initialize Git LFS and download the basket pricing model:
+First, clone the repository. Ensure that [Git LFS](https://git-lfs.com/) is installed. If you are using a jupyter notebook, run:
+
+```bash
+apt-get update -qq && apt-get install -y git-lfs
+```
+
+then run the following commands to initialize Git LFS and download the basket pricing model from the repository root:
 
 ```bash
 git lfs install
@@ -48,7 +53,7 @@ pip install -r requirements.txt
 ```
 
 Then, run the desired experiment using the provided configuration files as follows 
-(make sure to do this from the repository root:
+(make you run this from your working directory, not your repository root):
 
 ```bash
 PYTHONPATH="path_to_cloned_repo" \
